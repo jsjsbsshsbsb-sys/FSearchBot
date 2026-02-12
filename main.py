@@ -8,26 +8,6 @@ import hashlib
 import datetime
 import pytz
 
-from flask import Flask, jsonify
-import threading
-import os
-
-# ===== ВЕБ-СЕРВЕР ДЛЯ UPTIMEROBOT =====
-app = Flask(__name__)
-
-@app.route('/health')
-def health():
-    return jsonify({"status": "alive", "bot": "FSearch"}), 200
-
-def run_web_server():
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
-
-# Запускаем веб-сервер в отдельном потоке
-threading.Thread(target=run_web_server, daemon=True).start()
-bot = telebot.TeleBot("8421308485:AAF6wxM8QnLvFbkPHfOjbzCpb76zLsFhNJg")
-user_state = {}
-
 # ========== Поиск по IP ==========
 def get_ip_info(ip):
     try:
@@ -545,4 +525,5 @@ def text_handler(message):
 
 
 bot.polling(non_stop=True)
+
 
