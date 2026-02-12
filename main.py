@@ -8,6 +8,28 @@ import hashlib
 import datetime
 import pytz
 
+from flask import Flask, jsonify
+import threading
+import os
+
+# ===== ВЕБ-СЕРВЕР ДЛЯ UPTIMEROBOT (НЕ ДАЕТ БОТУ УСНУТЬ) =====
+app = Flask(__name__)
+
+@app.route('/health')
+def health():
+    return jsonify({"status": "alive", "bot": "FSearch"}), 200
+
+def run_web_server():
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
+
+# Запускаем веб-сервер в отдельном потоке
+threading.Thread(target=run_web_server, daemon=True).start()
+# ============================================================
+
+# 👇 ПОСЛЕ ЭТОГО БЛОКА ИДЕТ ВЕСЬ ТВОЙ ОСТАЛЬНОЙ КОД
+# (импорты, функции, bot.polling и т.д.)
+
 bot = telebot.TeleBot("8421308485:AAF6wxM8QnLvFbkPHfOjbzCpb76zLsFhNJg")
 user_state = {}
 
@@ -525,5 +547,6 @@ def text_handler(message):
 
     # Если ничего не подошло
     bot.send_message(message.chat.id, "❌ Неверный формат ввода", reply_markup=go_back_markup)
+
 
 bot.polling(non_stop=True)
