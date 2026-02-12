@@ -12,7 +12,7 @@ from flask import Flask, jsonify
 import threading
 import os
 
-# ===== ВЕБ-СЕРВЕР ДЛЯ UPTIMEROBOT (НЕ ДАЕТ БОТУ УСНУТЬ) =====
+# ===== ВЕБ-СЕРВЕР ДЛЯ UPTIMEROBOT =====
 app = Flask(__name__)
 
 @app.route('/health')
@@ -25,11 +25,6 @@ def run_web_server():
 
 # Запускаем веб-сервер в отдельном потоке
 threading.Thread(target=run_web_server, daemon=True).start()
-# ============================================================
-
-# 👇 ПОСЛЕ ЭТОГО БЛОКА ИДЕТ ВЕСЬ ТВОЙ ОСТАЛЬНОЙ КОД
-# (импорты, функции, bot.polling и т.д.)
-
 bot = telebot.TeleBot("8421308485:AAF6wxM8QnLvFbkPHfOjbzCpb76zLsFhNJg")
 user_state = {}
 
@@ -550,3 +545,4 @@ def text_handler(message):
 
 
 bot.polling(non_stop=True)
+
